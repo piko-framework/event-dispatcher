@@ -1,0 +1,47 @@
+{
+	"name" : "piko/event-dispatcher",
+	"description" : "A basic PSR-14 implementation using a priority queue",
+	"keywords" : [
+		"psr-14",
+		"event-dispatcher",
+		"event"
+	],
+	"authors" : [{
+			"name" : "Sylvain Philip",
+			"homepage" : "https://www.sphilip.com",
+			"role" : "Developer"
+		}
+	],
+	"homepage" : "https://github.com/piko-framework/event-dispatcher",
+	"license" : "MIT",
+	"require" : {
+		"php" : ">=7.1.0",
+		"psr/event-dispatcher" : "^1.0"
+	},
+	"provide" : {
+		"psr/event-dispatcher-implementation" : "1.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Piko\\" : "src"
+		}
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "^9.5",
+		"squizlabs/php_codesniffer" : "^3.7",
+		"phpstan/phpstan" : "^1.8"
+	},
+	"scripts" : {
+		"test" : [
+			"@phpunit",
+			"@phpcs",
+			"@phpstan"
+		],
+		"phpunit" : "phpunit",
+		"phpcs" : "phpcs",
+		"phpstan" : "phpstan"
+	},
+	"config" : {
+		"sort-packages" : true
+	}
+}

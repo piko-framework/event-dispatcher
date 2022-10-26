@@ -1,0 +1,9 @@
+# Ignore these files with "export-ignore".
+/.gitattributes    export-ignore
+/.github           export-ignore
+/.gitignore        export-ignore
+/phpcs.xml         export-ignore
+/phpunit.xml.dist  export-ignore
+/phpstan.neon.dist export-ignore
+/coverage          export-ignore
+/tests             export-ignore
