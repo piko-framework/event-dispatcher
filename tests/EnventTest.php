@@ -25,4 +25,23 @@ class EventTest extends TestCase
 
         $this->assertEquals('H', $event->value);
     }
+
+    public function testMultipleDispatchForOneListener()
+    {
+        $provider = new ListenerProvider();
+
+        $provider->addListenerForEvent(TestEvent::class, function(TestEvent $event) {
+            $event->value++;
+        });
+
+        $dispatcher = new EventDispatcher($provider);
+        $event = new TestEvent();
+        $event->value = 0;
+
+        for ($i = 0; $i < 5; $i++) {
+            $dispatcher->dispatch($event);
+        }
+
+        $this->assertEquals(5, $event->value);
+    }
 }

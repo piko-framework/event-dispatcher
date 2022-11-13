@@ -27,6 +27,13 @@ class EventDispatcher implements EventDispatcherInterface
     private $listenerProvider;
 
     /**
+     * Listeners cache
+     *
+     * @var array<class-name, array<int, callable>>
+     */
+    private $listeners;
+
+    /**
      * @param ListenerProviderInterface $listenerProvider
      */
     public function __construct(ListenerProviderInterface $listenerProvider)
@@ -40,9 +47,20 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function dispatch(object $event): object
     {
-        $listeners = $this->listenerProvider->getListenersForEvent($event);
+        $eventClass = get_class($event);
 
-        foreach ($listeners as $listener) {
+        if (!isset($this->listeners[$eventClass])) {
+            $this->listeners[$eventClass] = [];
+            $listeners = $this->listenerProvider->getListenersForEvent($event);
+
+            foreach ($listeners as $listener) {
+                // Listeners must be saved in the cache because they are deleted by looping the priority queue
+                // in the Piko\ListenerProvider
+                $this->listeners[$eventClass][] = $listener;
+            }
+        }
+
+        foreach ($this->listeners[$eventClass] as $listener) {
             if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
                 break;
             }
